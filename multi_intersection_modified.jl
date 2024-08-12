@@ -227,35 +227,107 @@ function main(Φ, d, w1, w2, t0, v_avg, v_max, avg_a, max_a, grid_dim, L)
     return model
 end
 
-grid_rowsize = 3 # Number of rows in the intersection grid
-grid_columnsize = 3 # Number of columns in the intersection grid
+grid_rowsize = 2 # Number of rows in the intersection grid
+grid_columnsize = 2 # Number of columns in the intersection grid
 grid_dim = [grid_rowsize, grid_columnsize]
-d1 = [100 200 300 400 500 1600 700 800 900] # Distance with respect to intersection 1
-d2 = [100 200 300 400 500 1600 700 800 900] # Distance with respect to intersection 2
-d3 = [100 200 300 400 500 1600 700 800 900] # Distance with respect to intersection 3
-d4 = [100 200 300 400 500 1600 700 800 900] # Distance with respect to intersection 4
-d5 = [100 200 300 400 500 1600 700 800 900] # Distance with respect to intersection 5
-d6 = [100 200 300 400 500 1600 700 800 900]
-d7 = [100 200 300 400 500 1600 700 800 900]
-d8 = [100 200 300 400 500 1600 700 800 900]
-d9 = [100 200 300 400 500 1600 700 800 900]
-d = [d1, d2, d3, d4, d5, d6, d7، d8, d9] # Combine the distance vectors of all intersections into a matrix
+d1 = [100 200 300] 
+d2 = [100 200 300] 
+d3 = [100 200 300] 
+d4 = [100 200 300]
+d = [d1, d2, d3, d4] # Combine the distance vectors of all intersections into a matrix
 
 n = sum(length, d)
 
-φ1 = [WEST, SOUTH, EAST, NORTH, EAST, SOUTH, NORTH, WEST, SOUTH]
-φ2 = [SOUTH, EAST, NORTH, WEST, SOUTH, EAST, NORTH, WEST, SOUTH]
-φ3 = [EAST, NORTH, WEST, SOUTH, EAST, NORTH, WEST, SOUTH, EAST]
-φ4 = [NORTH, WEST, SOUTH, EAST, NORTH, WEST, SOUTH, EAST, NORTH] 
-φ5 = [NORTH, EAST, SOUTH, WEST, NORTH, EAST, SOUTH, WEST, NORTH]
-φ6 = [WEST, NORTH, EAST, SOUTH, WEST, NORTH, EAST, SOUTH, WEST]
-φ7 = [NORTH, WEST, SOUTH, EAST, NORTH, WEST, SOUTH, EAST, NORTH] 
-φ8 = [NORTH, EAST, SOUTH, WEST, NORTH, EAST, SOUTH, WEST, NORTH]
-φ9 = [WEST, NORTH, EAST, SOUTH, WEST, NORTH, EAST, SOUTH, WEST]
-Φ = [ϕ1, ϕ2, ϕ3, ϕ4, ϕ5, ϕ6, ϕ7, ϕ8, ϕ9] # Combine the phases of all intersections into a matrix
-L = 250 # The distance in meters between the different intersection points
+ϕ1 = [WEST, SOUTH, EAST]
+ϕ2 = [SOUTH, EAST, NORTH]
+ϕ3 = [EAST, NORTH, WEST]
+ϕ4 = [NORTH, WEST, SOUTH]
+Φ = [ϕ1, ϕ2, ϕ3, ϕ4] # Combine the phases of all intersections into a matrix
+L = 500 # The distance in meters between the different intersection points
 
-#change to 0,1 and 1,0 and 0.5,0.5 (3 different optimizations)
+"""2x2 grid:
+Scenario 1:
+
+d1 = [100 200 300] 
+d2 = [100 200 300] 
+d3 = [100 200 300] 
+d4 = [100 200 300] 
+
+ϕ1 = [WEST, SOUTH, EAST]
+ϕ2 = [SOUTH, EAST, NORTH]
+ϕ3 = [EAST, NORTH, WEST]
+ϕ4 = [NORTH, WEST, SOUTH]
+
+Scenario 2:
+
+d1 = [600 700 800 900 1000 1100 1200 1300 1400]
+d2 = [600 700 800 900 1000 1100 1200 1300 1400]
+d3 = [600 700 800 900 1000 1100 1200 1300 1400]
+d4 = [600 700 800 900 1000 1100 1200 1300 1400]
+
+ϕ1 = [WEST, SOUTH, EAST, NORTH, EAST, SOUTH, NORTH, WEST, SOUTH]
+ϕ2 = [SOUTH, EAST, NORTH, WEST, SOUTH, EAST, NORTH, WEST, SOUTH]
+ϕ3 = [EAST, NORTH, WEST, SOUTH, EAST, NORTH, WEST, SOUTH, EAST]
+
+3x2 grid:
+
+Scenario 1:
+
+d1 = [600 700 800 900 1000 1100 1200 1300 1400]
+d2 = [600 700 800 900 1000 1100 1200 1300 1400]
+d3 = [600 700 800 900 1000 1100 1200 1300 1400]
+d4 = [600 700 800 900 1000 1100 1200 1300 1400]
+d5 = [600 700 800 900 1000 1100 1200 1300 1400]
+d6 = [600 700 800 900 1000 1100 1200 1300 1400]
+
+ϕ1 = [WEST, SOUTH, EAST, NORTH, EAST, SOUTH, NORTH, WEST, SOUTH]
+ϕ2 = [SOUTH, EAST, NORTH, WEST, SOUTH, EAST, NORTH, WEST, SOUTH]
+ϕ3 = [EAST, NORTH, WEST, SOUTH, EAST, NORTH, WEST, SOUTH, EAST]
+ϕ4 = [NORTH, WEST, SOUTH, EAST, NORTH, WEST, SOUTH, EAST, NORTH]
+ϕ5 = [NORTH, EAST, SOUTH, WEST, NORTH, EAST, SOUTH, WEST, NORTH]
+ϕ6 = [WEST, NORTH, EAST, SOUTH, WEST, NORTH, EAST, SOUTH, WEST]
+
+Scenario 2:
+
+d1 = [100 200 300 400] 
+d2 = [100 200 300 400] 
+d3 = [100 200 300 400] 
+d4 = [100 200 300 400] 
+d5 = [100 200 300 400] 
+d6 = [100 200 300 400] 
+
+ϕ1 = [WEST, SOUTH, EAST, NORTH]
+ϕ2 = [SOUTH, EAST, NORTH, WEST]
+ϕ3 = [EAST, NORTH, WEST, SOUTH]
+ϕ4 = [NORTH, WEST, SOUTH, EAST]
+ϕ5 = [NORTH, EAST, SOUTH, WEST]
+ϕ6 = [WEST, NORTH, EAST, SOUTH]
+
+3x3 grid:
+
+Scenario 1:
+
+d1 = [100 200 300 400 500 600 700 800 900] 
+d2 = [100 200 300 400 500 600 700 800 900] 
+d3 = [100 200 300 400 500 600 700 800 900] 
+d4 = [100 200 300 400 500 600 700 800 900] 
+d5 = [100 200 300 400 500 600 700 800 900] 
+d6 = [100 200 300 400 500 600 700 800 900]
+d7 = [100 200 300 400 500 600 700 800 900]
+d8 = [100 200 300 400 500 600 700 800 900]
+d9 = [100 200 300 400 500 600 700 800 900]
+
+ϕ1 = [WEST, SOUTH, EAST, NORTH, EAST, SOUTH, NORTH, WEST, SOUTH]
+ϕ2 = [SOUTH, EAST, NORTH, WEST, SOUTH, EAST, NORTH, WEST, SOUTH]
+ϕ3 = [EAST, NORTH, WEST, SOUTH, EAST, NORTH, WEST, SOUTH, EAST]
+ϕ4 = [NORTH, WEST, SOUTH, EAST, NORTH, WEST, SOUTH, EAST, NORTH]
+ϕ5 = [NORTH, EAST, SOUTH, WEST, NORTH, EAST, SOUTH, WEST, NORTH]
+ϕ6 = [WEST, NORTH, EAST, SOUTH, WEST, NORTH, EAST, SOUTH, WEST]
+ϕ7 = [NORTH, WEST, SOUTH, EAST, NORTH, WEST, SOUTH, EAST, NORTH]
+ϕ8 = [NORTH, EAST, SOUTH, WEST, NORTH, EAST, SOUTH, WEST, NORTH]
+ϕ9 = [WEST, NORTH, EAST, SOUTH, WEST, NORTH, EAST, SOUTH, WEST]"""
+
+# 0,1 and 1,0 and 0.5,0.5 (3 different optimizations)
 w1 = 0.5 # Weight for objective function 1
 w2 = 0.5 # weight for objective function 2
 
@@ -283,44 +355,3 @@ df = DataFrame(result,header);
 println(df)
 
 println("\nThe maximum t_access value is: $(maximum(value.(model[:t_access])))")
-
-using Plots
-plot(1:length(value.(model[:t_access])), value.(model[:t_access]), seriestype = :vline, xlabel="Time (sec)", ylabel="Remaining Distance (m)", title="Intersection clearance", xlims=(0, 100), ylims=(0, 1250))
-
-"""ϕ2 = [SOUTH, SOUTH, SOUTH, NORTH, SOUTH, WEST, WEST, NORTH, EAST]
-ϕ3 = [SOUTH, NORTH, EAST, WEST, NORTH, EAST, NORTH, EAST, EAST]
-ϕ4 = [NORTH, WEST, EAST, NORTH, WEST, WEST, SOUTH, NORTH, WEST]
-ϕ5 = [WEST, WEST, EAST, SOUTH, EAST, EAST, NORTH, NORTH, EAST]
-ϕ6 = [SOUTH, WEST, NORTH, EAST, SOUTH, WEST, WEST, SOUTH, WEST]
-ϕ1 = [WEST, SOUTH, EAST, NORTH, NORTH, NORTH, WEST, SOUTH, WEST] # Phases the vehicles are moving on for intersection 1
-ϕ2 = [WEST, SOUTH, EAST, NORTH, NORTH, NORTH, WEST, SOUTH, WEST] # Phases the vehicles are moving on for intersection 2
-ϕ3 = [WEST, SOUTH, EAST, NORTH, NORTH, NORTH, WEST, SOUTH, WEST] # Phases the vehicles are moving on for intersection 3
-ϕ4 = [WEST, SOUTH, EAST, NORTH, NORTH, NORTH, WEST, SOUTH, WEST] # Phases the vehicles are moving on for intersection 4
-ϕ5 = [WEST, SOUTH, EAST, NORTH, NORTH, NORTH, WEST, SOUTH, WEST] # Phases the vehicles are moving on for intersection 5
-ϕ6 = [WEST, SOUTH, EAST, NORTH, NORTH, NORTH, WEST, SOUTH, WEST] # Phases the vehicles are moving on for intersection 6
-ϕ7 = [WEST, SOUTH, EAST, NORTH, NORTH, NORTH, WEST, SOUTH, WEST]
-ϕ8 = [WEST, SOUTH, EAST, NORTH, NORTH, NORTH, WEST, SOUTH, WEST]
-ϕ9 = [WEST, SOUTH, EAST, NORTH, NORTH, NORTH, WEST, SOUTH, WEST]
-ϕ10 = [WEST, SOUTH, EAST, NORTH, NORTH, NORTH, WEST, SOUTH, WEST] # Phases the vehicles are moving on for intersection 2
-ϕ11 = [WEST, SOUTH, EAST, NORTH, NORTH, NORTH, WEST, SOUTH, WEST] # Phases the vehicles are moving on for intersection 3
-ϕ12 = [WEST, SOUTH, EAST, NORTH, NORTH, NORTH, WEST, SOUTH, WEST] # Phases the vehicles are moving on for intersection 4
-ϕ13 = [WEST, SOUTH, EAST, NORTH, NORTH, NORTH, WEST, SOUTH, WEST] # Phases the vehicles are moving on for intersection 5
-ϕ14= [WEST, SOUTH, EAST, NORTH, NORTH, NORTH, WEST, SOUTH, WEST] # Phases the vehicles are moving on for intersection 6
-ϕ15 = [WEST, SOUTH, EAST, NORTH, NORTH, NORTH, WEST, SOUTH, WEST]
-ϕ16 = [WEST, SOUTH, EAST, NORTH, NORTH, NORTH, WEST, SOUTH, WEST]
-d1 = [764, 1491, 605, 1347, 1213, 1084, 1269, 1211, 1117]
-d2 = [1388, 722, 930, 640, 968, 910, 1125, 786, 741]
-d3 = [1209, 1272, 649, 673, 637, 1343, 603, 1497, 1042]
-d4 = [783, 961, 750, 985, 1239, 1037, 898, 602, 795]
-d5 = [1277, 1213, 910, 789, 1385, 1465, 1329, 725, 1014]
-d6 = [954, 1441, 931, 1394, 884, 1325, 1071, 649, 1219]
-
-
-d10 = [690 750 780 900 990 1080 1170 1230 1290]
-d11 = [690 750 780 900 990 1080 1170 1230 1290]
-d12 = [690 750 780 900 990 1080 1170 1230 1290]
-d13 = [690 750 780 900 990 1080 1170 1230 1290]
-d14 = [690 750 780 900 990 1080 1170 1230 1290]
-d15 = [690 750 780 900 990 1080 1170 1230 1290]
-d16 = [690 750 780 900 990 1080 1170 1230 1290]
-"""
