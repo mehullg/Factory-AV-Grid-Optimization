@@ -1,4 +1,4 @@
-# Traffic Intersection Optimization
+# Factory-AV-Grid-Optimization
 
 This repository contains a Julia implementation of a traffic intersection optimization model. The model schedules vehicles at intersections in a grid-based topology to minimize delays while adhering to constraints like speed limits, acceleration limits, and safety gaps.
 
