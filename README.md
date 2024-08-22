@@ -42,7 +42,7 @@ This repository contains a Julia implementation of a traffic intersection optimi
 
 3. **Load the code:** Run the following commands in the Julia REPL to load and execute the code:
     ```julia
-    include("traffic_optimization.jl")
+    include("factory_multi_intersection.jl")
     main(Φ, d, w1, w2, t0, v_avg, v_max, avg_a, max_a, grid_dim, L)
     ```
    Replace the parameters in the `main` function with your desired values.
